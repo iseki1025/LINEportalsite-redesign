@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>シャント管理 | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <link rel="stylesheet" href="representative-pages.css?v=20260915-p5">
+</head>
+
+<body class="page-shunt">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
+    <header class="app-header">
+        <a href="friend-main.html" class="header-logo" aria-label="お友達特典トップへ戻る">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">シャント管理</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content content-default">
+
+        <!-- Hero -->
+        <section class="hero-section theme-shunt">
+            <h1 class="hero-title">シャントは「命綱」</h1>
+            <p class="hero-subtitle">日頃の自己管理が非常に重要です。</p>
+        </section>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav" role="tablist" aria-label="シャント管理メニュー">
+            <button id="tab-info" type="button" class="tab-btn active" role="tab" aria-selected="true"
+                aria-controls="info" onclick="switchTab('info', this)">管理の基本</button>
+            <button id="tab-quiz" type="button" class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="quiz" onclick="switchTab('quiz', this)">クイズ</button>
+            <button id="tab-qa" type="button" class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="qa" onclick="switchTab('qa', this)">Q&amp;A</button>
+        </nav>
+
+        <!-- Tab 1: Info -->
+        <section id="info" class="tab-content active" role="tabpanel" aria-labelledby="tab-info">
+            <h2 class="section-title">毎日のチェックポイント</h2>
+
+            <div class="check-grid">
+                <div class="check-item">
+                    <img class="check-illustration" src="files/shunt/shunt-look-v3.webp"
+                        alt="自分のシャント側の腕を見て確認するイラスト" width="640" height="640" loading="lazy">
+                    <div class="check-title">見る</div>
+                    <div class="check-desc">赤み・腫れ・傷がないか</div>
+                </div>
+                <div class="check-item">
+                    <img class="check-illustration" src="files/shunt/shunt-listen-v3.webp"
+                        alt="聴診器をシャント側の腕に当てて音を聴くイラスト" width="640" height="640" loading="lazy">
+                    <div class="check-title">聴く</div>
+                    <div class="check-desc">ザーザー音があるか</div>
+                </div>
+                <div class="check-item">
+                    <img class="check-illustration" src="files/shunt/shunt-touch-v3.webp"
+                        alt="指でシャント側の腕に軽く触れて確認するイラスト" width="640" height="640" loading="lazy">
+                    <div class="check-title">触る</div>
+                    <div class="check-desc">振動(スリル)があるか</div>
+                </div>
+            </div>
+
+            <div class="ng-list">
+                <h3>日常生活の注意点</h3>
+                <ul>
+                    <li>シャント側で重いものを持たない</li>
+                    <li>シャント側で血圧測定しない</li>
+                    <li>腕を体の下にして寝ない</li>
+                    <li>シャント部を清潔に保つ</li>
+                    <li>たたいたり、強くぶつけたりしない</li>
+                    <li>シャント側に腕時計をしない</li>
+                </ul>
+            </div>
+
+            <div class="contact-card alert-caution">
+                <h3 class="contact-card-title">
+                    異常が見られたら・気になることがあったら</h3>
+                <p class="contact-card-description">
+                    シャントの異常に気が付いた場合や、少しでも不安に感じることがある場合は、自己判断せずにすぐにご相談ください。</p>
+                <button type="button" class="contact-btn" id="openContactModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72">
+                        </path>
+                    </svg>
+                    緊急時はここからご連絡ください
+                </button>
+                <p class="contact-card-note">
+                    ※恐れ入りますが、診療時間外は対応しておりませんので、あらかじめご了承ください。
+                </p>
+            </div>
+        </section>
+
+        <!-- Tab 2: Quiz -->
+        <section id="quiz" class="tab-content" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+            <div class="quiz-card">
+                <h2 class="quiz-card-title">シャント管理クイズ</h2>
+                <p class="quiz-card-description">ゲーム感覚で楽しく知識が身につきます。</p>
+                <a href="friend-shunt-quiz.html" class="quiz-btn">クイズに挑戦</a>
+            </div>
+        </section>
+
+        <!-- Tab 3: Q&A (Compatible with qa-script.js) -->
+        <section id="qa" class="tab-content qa-search-section" data-category="シャント" role="tabpanel"
+            aria-labelledby="tab-qa" hidden>
+            <div class="qa-section-intro">
+                <p class="qa-section-description">キーワードを入力して、シャント関連の質問を検索できます。
+                </p>
+                <label class="visually-hidden" for="shuntQaSearch">シャント関連の質問を検索</label>
+                <input id="shuntQaSearch" type="search" class="search-input qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)"
+                    autocomplete="off">
+                <div class="keyword-buttons mt-md">
+                    <button type="button" class="keyword-btn pink" onclick="setKeyword('痛み')">痛み</button>
+                    <button type="button" class="keyword-btn pink" onclick="setKeyword('閉塞')">閉塞</button>
+                    <button type="button" class="keyword-btn pink" onclick="setKeyword('感染')">感染</button>
+                </div>
+            </div>
+            <div class="qa-results-container">
+                <!-- Q&A items loaded here by qa-script.js -->
+            </div>
+        </section>
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="friend-main.html" class="btn btn-secondary">
+                お友達特典ポータルへ戻る
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="app-footer">
+        <div class="app-footer-inner">
+            <a href="index.html" class="stealth-link">© 2026 Kajimoto Clinic</a>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" aria-label="主要メニュー">
+        <a href="friend-main.html" class="nav-item active" aria-current="page">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
+            <span>特典トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactOverlay" role="dialog" aria-modal="true"
+        aria-labelledby="contactModalTitle" aria-hidden="true">
+        <div class="modal-content" role="document">
+            <button type="button" class="modal-close" id="closeContactModal" aria-label="閉じる">&times;</button>
+            <h2 id="contactModalTitle" class="contact-modal-title">連絡先を選択</h2>
+            <div class="contact-list">
+                <a href="tel:0722520555" class="contact-link"><span>本院</span><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg></a>
+                <a href="tel:0722502960" class="contact-link"><span>なかもず分院</span><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg></a>
+                <a href="tel:0722758980" class="contact-link"><span>三国ヶ丘分院</span><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-source.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
+    <script>
+        function switchTab(id, trigger) {
+            document.querySelectorAll('.tab-content').forEach((panel) => {
+                const active = panel.id === id;
+                panel.classList.toggle('active', active);
+                panel.hidden = !active;
+            });
+            document.querySelectorAll('.tab-btn').forEach((tab) => {
+                const active = tab === trigger;
+                tab.classList.toggle('active', active);
+                tab.setAttribute('aria-selected', String(active));
+            });
+        }
+
+        function setKeyword(word) {
+            const input = document.querySelector('.qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+
+        // Modal
+        const contactOverlay = document.getElementById('contactOverlay');
+        const openContactModal = document.getElementById('openContactModal');
+        const closeContactModal = document.getElementById('closeContactModal');
+
+        function closeContactDialog() {
+            contactOverlay.classList.remove('active');
+            contactOverlay.setAttribute('aria-hidden', 'true');
+            openContactModal.focus();
+        }
+
+        openContactModal.addEventListener('click', () => {
+            contactOverlay.classList.add('active');
+            contactOverlay.setAttribute('aria-hidden', 'false');
+            closeContactModal.focus();
+        });
+        closeContactModal.addEventListener('click', closeContactDialog);
+        contactOverlay.addEventListener('click', (e) => {
+            if (e.target === contactOverlay) {
+                closeContactDialog();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactOverlay.classList.contains('active')) closeContactDialog();
+        });
+    </script>
+
+
+</body>
+
+</html>

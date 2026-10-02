@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザー管理 - 梶本クリニック 統合管理システム</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="components.css">
+</head>
+
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <button onclick="transitionNavigate('admin-dashboard.html')" class="btn-logout" style="margin-right:1rem;">←
+                戻る</button>
+            <h1>👥 ユーザー管理</h1>
+        </div>
+        <div class="admin-header-right">
+            <button id="logoutBtn" class="btn-logout">ログアウト</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section class="editor-section">
+            <h2 id="formTitle">新規ユーザー登録</h2>
+            <form id="userForm">
+                <input type="hidden" id="editUid">
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" required placeholder="example@kajimoto-clinic.jp">
+                </div>
+                <div class="form-group" id="passwordGroup">
+                    <label for="password">パスワード（8文字以上）</label>
+                    <input type="password" id="password" minlength="8" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="displayName">表示名</label>
+                    <input type="text" id="displayName" required placeholder="山田 太郎">
+                </div>
+                <div class="form-group">
+                    <label for="facility">所属施設</label>
+                    <select id="facility" required>
+                        <option value="本院">本院</option>
+                        <option value="なかもず分院">なかもず分院</option>
+                        <option value="三国ヶ丘分院">三国ヶ丘分院</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>役割</label>
+                    <div style="display: flex; gap: 1rem;">
+                        <label><input type="radio" name="role" value="editor" checked> 編集者</label>
+                        <label><input type="radio" name="role" value="admin"> システム管理者</label>
+                    </div>
+                </div>
+                <div class="form-group" id="permissionsGroup">
+                    <label>編集権限（編集者の場合のみ）</label>
+                    <div class="checkbox-group">
+                        <!-- <label><input type="checkbox" id="permQa" checked> Q&A編集</label> -->
+                        <label><input type="checkbox" id="permDialysis" checked> 透析状況更新</label>
+                        <label><input type="checkbox" id="permRecipes" checked> レシピ管理</label>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" id="submitBtn" class="btn-primary">登録する</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary" style="display:none;">キャンセル</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="editor-section">
+            <h2>登録済みユーザー一覧</h2>
+            <div id="userList">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p>読み込み中...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { requireAuth } from './js/admin/auth-guard.js';
+        import { showSuccess, confirmAction, showLoading } from './js/admin/ui-helper.js';
+        import { initializeApp, deleteApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, doc, getDocs, setDoc, updateDoc, deleteDoc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const currentUser = await requireAuth();
+        if (currentUser.role !== 'admin') {
+            alert('管理者専用ページです。');
+            transitionNavigate('admin-dashboard.html', { replace: true });
+        }
+
+        const userForm = document.getElementById('userForm');
+        const userList = document.getElementById('userList');
+        const editUidInput = document.getElementById('editUid');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const passwordGroup = document.getElementById('passwordGroup');
+
+        let allUsers = [];
+
+        async function loadUsers() {
+            showLoading(userList);
+            try {
+                const snapshot = await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'desc')));
+                allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderUserList(allUsers);
+            } catch (error) {
+                console.error('Load users error:', error);
+                userList.innerHTML = '<p>読み込みに失敗しました。</p>';
+            }
+        }
+
+        function renderUserList(users) {
+            userList.innerHTML = users.map(user => `
+        <div class="user-list-item">
+          <h4>${user.displayName} (${user.facility})</h4>
+          <p>📧 ${user.email}</p>
+          <p>🔖 役割: ${user.role === 'admin' ? 'システム管理者' : '編集者'}</p>
+          ${user.role === 'editor' ? `<p>✅ 権限: ${Object.keys(user.permissions || {}).filter(k => user.permissions[k]).join(', ')}</p>` : ''}
+          <div class="user-actions">
+            <button class="btn-primary" onclick="window.editUser('${user.uid}')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">編集</button>
+            ${user.uid !== currentUser.uid ? `<button class="btn-danger" onclick="window.deleteUser('${user.uid}')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">削除</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+        }
+
+        userForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const uid = editUidInput.value;
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            const name = document.getElementById('displayName').value;
+            const fac = document.getElementById('facility').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+
+            const perms = {
+                // qa: document.getElementById('permQa').checked,
+                dialysisStatus: document.getElementById('permDialysis').checked,
+                recipes: document.getElementById('permRecipes').checked
+            };
+
+            submitBtn.disabled = true;
+
+            try {
+                if (uid) {
+                    // 更新 (Authのパスワード変更はここでは行わない)
+                    await updateDoc(doc(db, 'users', uid), {
+                        displayName: name,
+                        facility: fac,
+                        role: role,
+                        permissions: perms,
+                        updatedAt: new Date()
+                    });
+                    showSuccess('ユーザー情報を更新しました');
+                } else {
+                    // 新規作成
+                    if (!pass) {
+                        alert('新規登録時はパスワードが必要です');
+                        submitBtn.disabled = false;
+                        return;
+                    }
+
+                    // 管理者がログアウトされないように別のAppインスタンスで作成
+                    const secondaryApp = initializeApp(firebaseConfig, 'Secondary');
+                    const secondaryAuth = getAuth(secondaryApp);
+
+                    const userCred = await createUserWithEmailAndPassword(secondaryAuth, email, pass);
+                    const newUid = userCred.user.uid;
+
+                    await setDoc(doc(db, 'users', newUid), {
+                        uid: newUid,
+                        email: email,
+                        displayName: name,
+                        facility: fac,
+                        role: role,
+                        permissions: perms,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    });
+
+                    // Secondary Appのクリーンアップ
+                    await signOut(secondaryAuth);
+                    await deleteApp(secondaryApp);
+
+                    showSuccess('ユーザーを作成しました');
+                }
+                resetForm();
+                loadUsers();
+            } catch (error) {
+                console.error('User save error:', error);
+                alert('ユーザーの保存に失敗しました: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        window.editUser = (uid) => {
+            const user = allUsers.find(u => u.uid === uid);
+            if (!user) return;
+
+            editUidInput.value = user.uid;
+            document.getElementById('email').value = user.email;
+            document.getElementById('email').disabled = true;
+            document.getElementById('displayName').value = user.displayName;
+            document.getElementById('facility').value = user.facility;
+            document.querySelector(`input[name="role"][value="${user.role}"]`).checked = true;
+
+            if (user.permissions) {
+                // if (document.getElementById('permQa')) document.getElementById('permQa').checked = user.permissions.qa;
+                document.getElementById('permDialysis').checked = user.permissions.dialysisStatus;
+                document.getElementById('permRecipes').checked = user.permissions.recipes;
+            }
+
+            passwordGroup.style.display = 'none';
+            formTitle.textContent = 'ユーザー編集';
+            submitBtn.textContent = '更新する';
+            cancelBtn.style.display = 'inline-block';
+            window.scrollTo(0, 0);
+        };
+
+        window.deleteUser = async (uid) => {
+            if (confirmAction('本当にこのユーザーを削除しますか？\n(Firestore上のデータのみ削除されます。Auth側は手動削除が必要です)')) {
+                try {
+                    await deleteDoc(doc(db, 'users', uid));
+                    showSuccess('ユーザーを削除しました');
+                    loadUsers();
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert('削除に失敗しました');
+                }
+            }
+        };
+
+        function resetForm() {
+            editUidInput.value = '';
+            userForm.reset();
+            document.getElementById('email').disabled = false;
+            passwordGroup.style.display = 'block';
+            formTitle.textContent = '新規ユーザー登録';
+            submitBtn.textContent = '登録する';
+            cancelBtn.style.display = 'none';
+        }
+
+        cancelBtn.addEventListener('click', resetForm);
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirmAction('ログアウトしますか？')) {
+                await signOut(auth);
+                transitionNavigate('admin-login.html', { replace: true });
+            }
+        });
+
+        loadUsers();
+    </script>
+
+</body>
+
+</html>

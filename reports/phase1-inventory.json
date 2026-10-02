@@ -1,0 +1,587 @@
+{
+  "totals_by_extension": {
+    ".bat": {
+      "count": 2,
+      "bytes": 936
+    },
+    ".css": {
+      "count": 8,
+      "bytes": 131441
+    },
+    ".csv": {
+      "count": 3,
+      "bytes": 123366
+    },
+    ".html": {
+      "count": 53,
+      "bytes": 699221
+    },
+    ".js": {
+      "count": 16,
+      "bytes": 98855
+    },
+    ".json": {
+      "count": 2,
+      "bytes": 519
+    },
+    ".md": {
+      "count": 1,
+      "bytes": 900
+    },
+    ".pdf": {
+      "count": 58,
+      "bytes": 44846563
+    },
+    ".png": {
+      "count": 50,
+      "bytes": 65634617
+    },
+    ".py": {
+      "count": 6,
+      "bytes": 11380
+    },
+    ".svg": {
+      "count": 1,
+      "bytes": 10549
+    },
+    ".txt": {
+      "count": 6,
+      "bytes": 8694
+    },
+    "[no extension]": {
+      "count": 2,
+      "bytes": 562
+    }
+  },
+  "tracked_node_modules": {
+    "count": 23,
+    "bytes": 263992
+  },
+  "html_pages": {
+    "admin-dashboard.html": {
+      "class": "admin",
+      "inline_style_attributes": 1,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "admin-dialysis-status-editor.html": {
+      "class": "admin",
+      "inline_style_attributes": 4,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "admin-login.html": {
+      "class": "admin",
+      "inline_style_attributes": 2,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "admin-qa-editor.html": {
+      "class": "admin",
+      "inline_style_attributes": 8,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "admin-recipe-manager.html": {
+      "class": "admin",
+      "inline_style_attributes": 7,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "admin-setup.html": {
+      "class": "admin",
+      "inline_style_attributes": 1,
+      "style_tags": 0,
+      "script_tags": 4
+    },
+    "admin-user-manager.html": {
+      "class": "admin",
+      "inline_style_attributes": 4,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "admin.html": {
+      "class": "admin",
+      "inline_style_attributes": 2,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "disaster-evacuation.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "disaster-faq.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 7
+    },
+    "disaster-furniture.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 2
+    },
+    "disaster-hazardmap.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 2
+    },
+    "disaster-main.html": {
+      "class": "public",
+      "inline_style_attributes": 18,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "disaster-recipe.html": {
+      "class": "public",
+      "inline_style_attributes": 5,
+      "style_tags": 0,
+      "script_tags": 2
+    },
+    "disaster-safety.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 2
+    },
+    "disaster-stock.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "friend-exercise-main.html": {
+      "class": "public",
+      "inline_style_attributes": 15,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "friend-footcare-main.html": {
+      "class": "public",
+      "inline_style_attributes": 11,
+      "style_tags": 2,
+      "script_tags": 3
+    },
+    "friend-game-animal-merge.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 4
+    },
+    "friend-game-ball-dodge-game.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "friend-game-falling-block-game.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "friend-game-main.html": {
+      "class": "public",
+      "inline_style_attributes": 1,
+      "style_tags": 1,
+      "script_tags": 2
+    },
+    "friend-game-reaction-game.html": {
+      "class": "public",
+      "inline_style_attributes": 7,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "friend-main.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "friend-nutrition-main.html": {
+      "class": "public",
+      "inline_style_attributes": 10,
+      "style_tags": 1,
+      "script_tags": 8
+    },
+    "friend-nutrition-quiz.html": {
+      "class": "public",
+      "inline_style_attributes": 1,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "friend-shunt-main.html": {
+      "class": "public",
+      "inline_style_attributes": 10,
+      "style_tags": 1,
+      "script_tags": 7
+    },
+    "friend-shunt-quiz.html": {
+      "class": "public",
+      "inline_style_attributes": 1,
+      "style_tags": 1,
+      "script_tags": 3
+    },
+    "index.html": {
+      "class": "public",
+      "inline_style_attributes": 0,
+      "style_tags": 0,
+      "script_tags": 3
+    },
+    "index_old.html": {
+      "class": "old",
+      "inline_style_attributes": 1,
+      "style_tags": 0,
+      "script_tags": 2
+    },
+    "migrate-csv-to-firestore.html": {
+      "class": "admin",
+      "inline_style_attributes": 12,
+      "style_tags": 0,
+      "script_tags": 4
+    },
+    "old_design/disaster-evacuation.html": {
+      "class": "old",
+      "inline_style_attributes": 8,
+      "style_tags": 1,
+      "script_tags": 0
+    },
+    "old_design/disaster-faq.html": {
+      "class": "old",
+      "inline_style_attributes": 14,
+      "style_tags": 1,
+      "script_tags": 4
+    },
+    "old_design/disaster-furniture.html": {
+      "class": "old",
+      "inline_style_attributes": 5,
+      "style_tags": 0,
+      "script_tags": 0
+    },
+    "old_design/disaster-hazardmap.html": {
+      "class": "old",
+      "inline_style_attributes": 17,
+      "style_tags": 0,
+      "script_tags": 0
+    },
+    "old_design/disaster-main.html": {
+      "class": "old",
+      "inline_style_attributes": 12,
+      "style_tags": 1,
+      "script_tags": 5
+    },
+    "old_design/disaster-safety.html": {
+      "class": "old",
+      "inline_style_attributes": 8,
+      "style_tags": 1,
+      "script_tags": 0
+    },
+    "old_design/disaster-stock.html": {
+      "class": "old",
+      "inline_style_attributes": 5,
+      "style_tags": 0,
+      "script_tags": 1
+    },
+    "old_design/friend-exercise-main.html": {
+      "class": "old",
+      "inline_style_attributes": 6,
+      "style_tags": 1,
+      "script_tags": 1
+    },
+    "old_design/friend-footcare-main.html": {
+      "class": "old",
+      "inline_style_attributes": 16,
+      "style_tags": 1,
+      "script_tags": 1
+    },
+    "old_design/friend-game-animal-merge.html": {
+      "class": "old",
+      "inline_style_attributes": 1,
+      "style_tags": 1,
+      "script_tags": 2
+    },
+    "old_design/friend-game-ball-dodge-game.html": {
+      "class": "old",
+      "inline_style_attributes": 0,
+      "style_tags": 1,
+      "script_tags": 1
+    },
+    "old_design/friend-game-falling-block-game.html": {
+      "class": "old",
+      "inline_style_attributes": 5,
+      "style_tags": 1,
+      "script_tags": 1
+    },
+    "old_design/friend-game-main.html": {
+      "class": "old",
+      "inline_style_attributes": 3,
+      "style_tags": 1,
+      "script_tags": 0
+    },
+    "old_design/friend-game-reaction-game.html": {
+      "class": "old",
+      "inline_style_attributes": 7,
+      "style_tags": 1,
+      "script_tags": 1
+    },
+    "old_design/friend-main.html": {
+      "class": "old",
+      "inline_style_attributes": 3,
+      "style_tags": 1,
+      "script_tags": 0
+    },
+    "old_design/friend-nutrition-main.html": {
+      "class": "old",
+      "inline_style_attributes": 18,
+      "style_tags": 1,
+      "script_tags": 5
+    },
+    "old_design/friend-nutrition-quiz.html": {
+      "class": "old",
+      "inline_style_attributes": 4,
+      "style_tags": 1,
+      "script_tags": 1
+    },
+    "old_design/friend-shunt-main.html": {
+      "class": "old",
+      "inline_style_attributes": 17,
+      "style_tags": 1,
+      "script_tags": 4
+    },
+    "old_design/friend-shunt-quiz.html": {
+      "class": "old",
+      "inline_style_attributes": 4,
+      "style_tags": 0,
+      "script_tags": 1
+    },
+    "old_design/index.html": {
+      "class": "old",
+      "inline_style_attributes": 5,
+      "style_tags": 0,
+      "script_tags": 0
+    },
+    "old_design/qa-main.html": {
+      "class": "old",
+      "inline_style_attributes": 14,
+      "style_tags": 0,
+      "script_tags": 5
+    },
+    "qa-main.html": {
+      "class": "public",
+      "inline_style_attributes": 2,
+      "style_tags": 1,
+      "script_tags": 6
+    }
+  },
+  "html_class_counts": {
+    "admin": 9,
+    "public": 22,
+    "old": 22
+  },
+  "broken_active_html_references": [],
+  "broken_old_html_references": [
+    {
+      "source": "old_design/disaster-faq.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-script.js",
+      "target": "old_design/js/qa/qa-script.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/disaster-main.html",
+      "source_class": "old",
+      "tag": "a",
+      "attribute": "href",
+      "value": "files/pdf/disaster-guide-book.pdf",
+      "target": "old_design/files/pdf/disaster-guide-book.pdf",
+      "exists": false
+    },
+    {
+      "source": "old_design/disaster-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-data-embedded.js",
+      "target": "old_design/js/qa/qa-data-embedded.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/disaster-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-script.js",
+      "target": "old_design/js/qa/qa-script.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-exercise-main.html",
+      "source_class": "old",
+      "tag": "img",
+      "attribute": "src",
+      "value": "files/common/caution-icon.png",
+      "target": "old_design/files/common/caution-icon.png",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-footcare-main.html",
+      "source_class": "old",
+      "tag": "img",
+      "attribute": "src",
+      "value": "files/common/caution-icon.png",
+      "target": "old_design/files/common/caution-icon.png",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-footcare-main.html",
+      "source_class": "old",
+      "tag": "a",
+      "attribute": "href",
+      "value": "files/pdf/footcare-guide-book.pdf",
+      "target": "old_design/files/pdf/footcare-guide-book.pdf",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-nutrition-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-data-embedded.js",
+      "target": "old_design/js/qa/qa-data-embedded.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-nutrition-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-script.js",
+      "target": "old_design/js/qa/qa-script.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-shunt-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-data-embedded.js",
+      "target": "old_design/js/qa/qa-data-embedded.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/friend-shunt-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-script.js",
+      "target": "old_design/js/qa/qa-script.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/index.html",
+      "source_class": "old",
+      "tag": "a",
+      "attribute": "href",
+      "value": "admin-login.html",
+      "target": "old_design/admin-login.html",
+      "exists": false
+    },
+    {
+      "source": "old_design/qa-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-source.js",
+      "target": "old_design/js/qa/qa-source.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/qa-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-data-embedded.js",
+      "target": "old_design/js/qa/qa-data-embedded.js",
+      "exists": false
+    },
+    {
+      "source": "old_design/qa-main.html",
+      "source_class": "old",
+      "tag": "script",
+      "attribute": "src",
+      "value": "js/qa/qa-script.js",
+      "target": "old_design/js/qa/qa-script.js",
+      "exists": false
+    }
+  ],
+  "unreferenced_image_candidates": [
+    "files/common/LOGO.png",
+    "files/common/background-header.png",
+    "files/common/bg-pattern.png",
+    "files/common/bg-watercolor.png",
+    "files/disaster/Check the hazard map.png",
+    "files/disaster/Home stockpiles.png",
+    "files/disaster/Prepare an emergency bag.png",
+    "files/disaster/Sharing methods for confirming safety.png",
+    "files/disaster/fixing furniture.png",
+    "files/exercise/ankle-exercise-icon.png",
+    "files/exercise/dumbbell-exercise-icon.png",
+    "files/exercise/ergometer-icon.png",
+    "files/exercise/exercise-icon.png",
+    "files/exercise/guu-paa.png",
+    "files/exercise/kainai-kaigai.png",
+    "files/exercise/radio-exercise-icon.png",
+    "files/exercise/stretching-icon.png",
+    "files/exercise/walking-icon.png",
+    "files/footcare/footcare-icon.png",
+    "files/game/game-icon.png",
+    "files/nutrition/nutrition-icon.png",
+    "files/pdf/nutrition/recipes/autumn/preview-autumn-maitake-chijimi-recipe.png",
+    "files/pdf/nutrition/recipes/autumn/preview-autumn-squid-broccoli-garlic-stir-fry-recipe.png",
+    "files/pdf/nutrition/recipes/autumn/preview-grilled-eggplant-mackerel.png",
+    "files/pdf/nutrition/recipes/autumn/preview-pickled-saury-plum-vinegar.png",
+    "files/pdf/nutrition/recipes/autumn/preview-stir-fried-turnip-salmon-miso.png",
+    "files/pdf/nutrition/recipes/autumn/preview-sweet-potato-mochi.png",
+    "files/pdf/nutrition/recipes/spring/preview-loquat-jelly.png",
+    "files/pdf/nutrition/recipes/spring/preview-spring-asparagus-chicken-plum-spring-rolls.png",
+    "files/pdf/nutrition/recipes/spring/preview-spring-clam-mixed-rice-recipe.png",
+    "files/pdf/nutrition/recipes/spring/preview-spring-new-onion-chicken-oyakodon.png",
+    "files/pdf/nutrition/recipes/spring/preview-spring-spanish-mackerel-butter-soy-sauce-recipe.png",
+    "files/pdf/nutrition/recipes/spring/preview-spring-young-burdock-atsuage-stir-fry-recipe.png",
+    "files/pdf/nutrition/recipes/winter/preview-spinach-mapo-tofu.png",
+    "files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.png",
+    "files/pdf/nutrition/recipes/winter/preview-winter-pork-belly-lemon-saute-recipe.png",
+    "files/pdf/nutrition/recipes/winter/preview-winter-simmered-splendid-alfonsino.png",
+    "files/pdf/nutrition/recipes/winter/preview-winter-stuffed-aburaage-meat-recipe.png",
+    "files/pdf/nutrition/recipes/winter/preview-winter-turnip-scallop-soymilk-chazuke-recipe.png",
+    "files/pdf/preview-disaster-guide-book-2025.png",
+    "files/shunt/shunt-icon.png",
+    "files/shunt/shunt-listen.png",
+    "files/shunt/shunt-look.png",
+    "files/shunt/shunt-touch.png"
+  ],
+  "duplicate_file_groups": [
+    [
+      "components.css",
+      "old_design/components.css"
+    ],
+    [
+      "files/pdf/about-emergency-food-stockpile.pdf",
+      "files/pdf/stocked-food.pdf"
+    ],
+    [
+      "jpn_files.txt",
+      "jpn_files_list.txt"
+    ],
+    [
+      "mobile-layout.css",
+      "old_design/mobile-layout.css"
+    ]
+  ]
+}

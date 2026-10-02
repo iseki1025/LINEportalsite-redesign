@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>災害情報ポータル | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <link rel="stylesheet" href="representative-pages.css?v=20260915-rest1">
+</head>
+
+<body class="page-disaster">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-logo" aria-label="災害情報ポータルへ戻る">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">災害情報</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+
+        <section class="hero-section theme-disaster">
+            <p class="badge">防災・透析情報</p>
+            <h1 class="hero-title">災害への備え</h1>
+            <p class="hero-subtitle">透析状況の確認と、もしもの時に役立つ情報をまとめています。</p>
+        </section>
+
+        <!-- Dialysis Status Panel -->
+        <div class="status-panel open" id="dialysis-status-panel">
+            <button type="button" class="status-panel-header" data-disclosure-target="dialysis-status-content"
+                aria-expanded="true" aria-controls="dialysis-status-content">
+                <span class="status-panel-title">透析状況</span>
+                <span id="current-status-time" class="status-time">状況未確認</span>
+                <span class="status-panel-toggle" aria-hidden="true">▼</span>
+            </button>
+            <div id="dialysis-status-content" class="status-panel-content">
+                <div class="status-grid" id="dialysisStatusContainer" aria-live="polite">
+                    <div class="status-fallback" role="status">
+                        <p>オンラインの透析状況を確認できません。各施設に直接ご確認ください。</p>
+                        <a href="tel:0664519010">本院 06-6451-9010</a>
+                        <a href="tel:0722502960">なかもず分院 072-250-2960</a>
+                        <a href="tel:0722758980">三国ヶ丘分院 072-275-8980</a>
+                    </div>
+                </div>
+                <button type="button" class="status-refresh-btn" id="statusRefreshBtn">最新情報を再取得</button>
+                <p class="status-note">
+                    ※表示は各施設の登録内容です。最終更新日時を確認し、状況に不安がある場合は施設へ直接ご確認ください。
+                </p>
+            </div>
+        </div>
+
+        <!-- PDF Guide Book (Always Visible) -->
+        <section class="guidebook-section" aria-labelledby="guidebook-title">
+            <h2 id="guidebook-title" class="section-title">災害ガイドブック</h2>
+            <article class="pdf-card">
+                <a class="pdf-card-thumbnail"
+                    href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf"
+                    target="_blank" rel="noopener noreferrer" aria-label="災害ガイドブック2026年版を新しいタブで開く">
+                    <img id="pdf-thumbnail" src="files/pdf/preview-disaster-guide-book-2026.webp"
+                        alt="災害ガイドブック2026年版の表紙プレビュー">
+                </a>
+                <div class="pdf-card-body">
+                    <p class="badge">PDF・2026年版</p>
+                    <h3 class="pdf-card-title">災害対策ガイドブック</h3>
+                    <p class="pdf-card-description">詳しい災害対策をPDFで確認できます。</p>
+                    <p class="pdf-card-meta">新しいタブでPDFを開きます</p>
+                    <a class="btn btn-primary"
+                        href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf"
+                        target="_blank" rel="noopener noreferrer">PDFを開く</a>
+                </div>
+            </article>
+
+            <div class="guidebook-contents">
+                <h3>目次</h3>
+                <ul>
+                    <li>1｜透析は災害に弱い治療</li>
+                    <li>2｜透析中に地震が起きたら？</li>
+                    <li>3｜施設外で災害が起きたら？</li>
+                    <li>4｜避難所に避難した時は？</li>
+                    <li>5｜自施設に行けない時は？</li>
+                    <li>6｜災害時の食事</li>
+                    <li>7｜災害時の薬</li>
+                    <li>8｜災害時の持ち出し物品</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Card Grid -->
+        <!-- Category 1: 当院の防災対策 (Collapsible) -->
+        <div class="collapsible open">
+            <button type="button" class="collapsible-header" data-disclosure-target="clinic-measures"
+                aria-expanded="true" aria-controls="clinic-measures">
+                <span class="collapsible-title">当院の防災対策</span>
+                <span class="collapsible-icon" aria-hidden="true">▼</span>
+            </button>
+            <div id="clinic-measures" class="collapsible-content">
+                <div class="menu-list">
+                    <a href="disaster-evacuation.html" class="menu-item">
+                        <span>避難手段</span>
+                    </a>
+                    <a href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/stocked-food.pdf" target="_blank" class="menu-item">
+                        <span>備蓄食について</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 2: ご自宅での防災対策 (Collapsible) -->
+        <div class="collapsible open">
+            <button type="button" class="collapsible-header" data-disclosure-target="home-measures"
+                aria-expanded="true" aria-controls="home-measures">
+                <span class="collapsible-title">ご自宅での防災対策</span>
+                <span class="collapsible-icon" aria-hidden="true">▼</span>
+            </button>
+            <div id="home-measures" class="collapsible-content">
+                <div class="menu-list">
+                    <a href="disaster-stock.html#stock" class="menu-item">
+                        <span>備蓄リスト</span>
+                    </a>
+                    <!--
+                    <a href="disaster-stock.html#bag" class="menu-item">
+                        <span>持ち出し品リスト</span>
+                    </a>
+                    -->
+                    <a href="disaster-furniture.html" class="menu-item">
+                        <span>家具転倒防止</span>
+                    </a>
+                    <a href="disaster-hazardmap.html" class="menu-item">
+                        <span>ハザードマップ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 3: 災害時お役立ちアイテム (Icon Grid) -->
+        <h2 class="section-title disaster-tools-title">災害時お役立ちアイテム</h2>
+        <div class="card-grid disaster-tools">
+            <!-- Safety Contact -->
+            <a href="disaster-safety.html" class="card accent-disaster">
+                <div class="card-icon">
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">災害用伝言ダイヤル<br>171</div>
+                </div>
+            </a>
+
+            <!-- Medical Association Network -->
+            <a href="https://www.saigai-touseki.net/result/?bid=101" target="_blank" class="card accent-disaster">
+                <div class="card-icon">
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#network"></use></svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">日本透析医会 災害時情報ネットワーク</div>
+                </div>
+            </a>
+
+            <!-- Recipe -->
+            <a href="disaster-recipe.html" class="card accent-nutrition">
+                <div class="card-icon">
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#nutrition"></use></svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">災害時レシピ</div>
+                </div>
+            </a>
+
+            <!-- Cards & Q&A -->
+            <a href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/evacuation-shelter-my-card.pdf" target="_blank" class="card accent-disaster">
+                <div class="card-icon">
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#card"></use></svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">避難所マイカード</div>
+                </div>
+            </a>
+
+            <!-- Disaster Q&A -->
+            <a href="disaster-faq.html" class="card accent-qa">
+                <div class="card-icon">
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">災害Q&amp;A</div>
+                </div>
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="app-footer">
+        <div class="app-footer-inner">
+            <a href="index.html" class="stealth-link">&copy; 2026 Kajimoto Clinic</a>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation (Q&A only - no link to friend) -->
+    <nav class="bottom-nav" aria-label="主要メニュー">
+        <a href="disaster-main.html" class="nav-item active" aria-current="page">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#disaster"></use></svg>
+            <span>災害ポータル</span>
+        </a>
+        <a href="disaster-faq.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+    </div>
+
+    <!-- Reason Modal -->
+    <div id="reasonModal" class="modal-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="reasonModalTitle" aria-hidden="true">
+        <div class="modal-content" role="document">
+            <button type="button" class="modal-close" id="closeReasonModal" aria-label="閉じる">&times;</button>
+            <h2 id="reasonModalTitle" class="modal-heading">詳細ガイドライン</h2>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('[data-disclosure-target]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const container = button.parentElement;
+                const expanded = !container.classList.contains('open');
+                container.classList.toggle('open', expanded);
+                button.setAttribute('aria-expanded', String(expanded));
+            });
+        });
+
+        const reasonModal = document.getElementById('reasonModal');
+        const closeReasonModal = document.getElementById('closeReasonModal');
+        let reasonModalTrigger = null;
+
+        window.openReasonModal = (reason) => {
+            reasonModalTrigger = document.activeElement;
+            document.getElementById('modalBody').textContent = reason;
+            reasonModal.classList.add('active');
+            reasonModal.setAttribute('aria-hidden', 'false');
+            closeReasonModal.focus();
+        };
+
+        function closeReasonDialog() {
+            reasonModal.classList.remove('active');
+            reasonModal.setAttribute('aria-hidden', 'true');
+            reasonModalTrigger?.focus();
+        }
+
+        closeReasonModal.addEventListener('click', closeReasonDialog);
+        reasonModal.addEventListener('click', (event) => {
+            if (event.target === reasonModal) closeReasonDialog();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && reasonModal.classList.contains('active')) closeReasonDialog();
+        });
+    </script>
+
+    <!-- Public status read. Admin updates remain in Firestore. -->
+    <script src="js/disaster-status.js?v=20260915-rest2"></script>
+
+
+</body>
+
+</html>

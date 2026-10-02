@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Phase 2 デザインシステム確認</title>
+    <link rel="stylesheet" href="../portal-design.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
+        <header class="app-header">
+            <a class="header-logo" href="#" aria-label="梶本クリニック">
+                <img src="../files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+            </a>
+            <div class="header-center">
+                <span class="header-title">デザインシステム</span>
+            </div>
+        </header>
+
+        <main id="main-content" class="main-content">
+            <section class="hero-section">
+                <p class="badge">PHASE 2</p>
+                <h1 class="hero-title">清潔で、迷わず使える医療ポータル</h1>
+                <p class="hero-subtitle">共通の色・文字・余白・操作部品を、スマートフォンからPCまで一貫して利用します。</p>
+            </section>
+
+            <section class="stack mb-xl" aria-labelledby="cards-title">
+                <h2 id="cards-title" class="section-title">Cards / Responsive Grid</h2>
+                <div class="responsive-grid" data-columns="3">
+                    <a class="card accent-shunt" href="#alerts">
+                        <span class="card-icon" aria-hidden="true">S</span>
+                        <span class="card-content">
+                            <span class="card-title">シャント管理</span>
+                            <span class="card-desc">毎日の観察とケア</span>
+                        </span>
+                    </a>
+                    <a class="card accent-exercise" href="#alerts">
+                        <span class="card-icon" aria-hidden="true">E</span>
+                        <span class="card-content">
+                            <span class="card-title">運動療法</span>
+                            <span class="card-desc">安全に続ける運動</span>
+                        </span>
+                    </a>
+                    <a class="card accent-nutrition" href="#pdf-card">
+                        <span class="card-icon" aria-hidden="true">N</span>
+                        <span class="card-content">
+                            <span class="card-title">食事療法 <span class="update-chip">UPDATE</span></span>
+                            <span class="card-desc">食事とレシピの情報</span>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="stack mb-xl" aria-labelledby="buttons-title">
+                <h2 id="buttons-title" class="section-title">Buttons / Tabs</h2>
+                <div class="cluster">
+                    <button type="button" class="btn btn-primary">主な操作</button>
+                    <button type="button" class="btn btn-secondary">補助操作</button>
+                    <button type="button" class="btn btn-danger">重要な操作</button>
+                    <button type="button" class="btn btn-secondary" disabled>利用不可</button>
+                </div>
+                <div class="tabs" role="tablist" aria-label="情報カテゴリー">
+                    <button type="button" class="tab-button active" role="tab" aria-selected="true">基本</button>
+                    <button type="button" class="tab-button" role="tab" aria-selected="false">ケア</button>
+                    <button type="button" class="tab-button" role="tab" aria-selected="false">Q&amp;A</button>
+                </div>
+            </section>
+
+            <section id="alerts" class="stack mb-xl" aria-labelledby="alerts-title">
+                <h2 id="alerts-title" class="section-title">Alerts</h2>
+                <div class="alert" role="status">
+                    <span aria-hidden="true">i</span>
+                    <div class="alert-content"><p class="alert-title">お知らせ</p><p>通常の補足情報を表示します。</p></div>
+                </div>
+                <div class="alert alert-warning" role="note">
+                    <span aria-hidden="true">!</span>
+                    <div class="alert-content"><p class="alert-title">注意</p><p>安全のために確認してほしい内容です。</p></div>
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    <span aria-hidden="true">!</span>
+                    <div class="alert-content"><p class="alert-title">緊急時</p><p>すぐにスタッフへ連絡してください。</p></div>
+                </div>
+            </section>
+
+            <section class="stack mb-xl" aria-labelledby="accordion-title">
+                <h2 id="accordion-title" class="section-title">Accordion</h2>
+                <div class="accordion">
+                    <details class="accordion-item">
+                        <summary>よくある質問</summary>
+                        <div class="accordion-panel"><p>回答は十分な行間と余白を確保して表示します。</p></div>
+                    </details>
+                    <details class="accordion-item" open>
+                        <summary>開いている項目</summary>
+                        <div class="accordion-panel"><p>色だけに頼らず、記号と開閉状態で伝えます。</p></div>
+                    </details>
+                </div>
+            </section>
+
+            <section id="pdf-card" class="stack mb-xl" aria-labelledby="pdf-title">
+                <h2 id="pdf-title" class="section-title">PDF Card</h2>
+                <article class="pdf-card">
+                    <div class="pdf-card-thumbnail">
+                        <img src="../files/pdf/preview-disaster-guide-book-2026.png" alt="災害ガイドブックの表紙プレビュー">
+                    </div>
+                    <div class="pdf-card-body">
+                        <p class="badge">PDF</p>
+                        <h3 class="pdf-card-title">災害対策ガイドブック</h3>
+                        <p class="pdf-card-description">災害時の備えと行動をまとめた資料です。</p>
+                        <p class="pdf-card-meta">新しいタブでPDFを開きます</p>
+                        <a class="btn btn-primary" href="../files/pdf/disaster-guide-book-2026.pdf" target="_blank" rel="noopener">PDFを開く</a>
+                    </div>
+                </article>
+            </section>
+
+            <section class="stack mb-xl" aria-labelledby="modal-title">
+                <h2 id="modal-title" class="section-title">Modal</h2>
+                <button id="openDemoModal" type="button" class="btn btn-secondary">モーダルを確認</button>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="app-footer-inner"><small>© 2026 Kajimoto Clinic</small></div>
+        </footer>
+
+        <nav class="bottom-nav" aria-label="主要メニュー">
+            <a class="nav-item active" href="#main-content" aria-current="page"><span aria-hidden="true">⌂</span><span>トップ</span></a>
+            <a class="nav-item" href="#alerts"><span aria-hidden="true">?</span><span>Q&amp;A</span></a>
+        </nav>
+    </div>
+
+    <div id="demoModal" class="app-modal" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
+        <div class="app-modal-panel">
+            <button id="closeDemoModal" type="button" class="modal-close" aria-label="閉じる">×</button>
+            <h2 id="demoModalTitle" class="pdf-card-title">確認ダイアログ</h2>
+            <p>重要な内容に集中できる、読みやすいモーダルです。</p>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('demoModal');
+        const openButton = document.getElementById('openDemoModal');
+        const closeButton = document.getElementById('closeDemoModal');
+
+        openButton.addEventListener('click', () => {
+            modal.classList.add('active');
+            closeButton.focus();
+        });
+        closeButton.addEventListener('click', () => {
+            modal.classList.remove('active');
+            openButton.focus();
+        });
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeButton.click();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) closeButton.click();
+        });
+    </script>
+</body>
+</html>

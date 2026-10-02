@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>避難手段 | 災害情報ポータル</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        .evacuation-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+
+        .evacuation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-glass-dark);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .evacuation-header:hover {
+            background: var(--bg-main);
+        }
+
+        .evacuation-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .evacuation-toggle {
+            color: var(--text-muted);
+            transition: transform var(--transition-normal);
+        }
+
+        .evacuation-item.open .evacuation-toggle {
+            transform: rotate(180deg);
+        }
+
+        .evacuation-content {
+            display: none;
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .evacuation-item.open .evacuation-content {
+            display: block;
+        }
+
+        .evacuation-content p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.7;
+        }
+
+        .video-placeholder {
+            background: #1a1a2e;
+            height: 180px;
+            border-radius: var(--radius-md);
+            margin-top: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .video-trigger {
+            appearance: none;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, var(--accent-disaster) 0%, #ef4444 100%);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(220, 38, 38, 0.25);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .video-trigger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(220, 38, 38, 0.3);
+        }
+
+        .video-trigger:focus-visible {
+            outline: 3px solid rgba(220, 38, 38, 0.35);
+            outline-offset: 3px;
+        }
+
+        .video-trigger small {
+            display: block;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 4000;
+            padding: var(--spacing-lg);
+        }
+
+        .video-modal.is-open {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            width: min(100%, 820px);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -52px;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            font-size: 1.8rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .video-frame {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .warning-box {
+            background: var(--accent-disaster-bg);
+            border-left: 4px solid var(--accent-disaster);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .warning-box strong {
+            color: var(--accent-disaster);
+        }
+
+        .warning-box p {
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+            line-height: 1.6;
+        }
+
+        .intro-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-xl);
+        }
+    </style>
+    <link rel="stylesheet" href="public-pages.css">
+</head>
+
+<body class="page-public page-disaster-detail">
+    <!-- Header -->
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-logo">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">避難手段</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero -->
+        <section class="hero-section theme-disaster">
+            <h1 class="hero-title">院内避難設備</h1>
+            <p class="hero-subtitle">
+                おひとりでは避難が<br>
+                難しい方へ
+            </p>
+        </section>
+
+        <!-- Intro -->
+        <div class="intro-text">
+            <p>災害時、当院では様々な避難手段を用意しています。各設備の使用方法を事前に確認しておきましょう。</p>
+        </div>
+
+        <!-- Evacuation Items -->
+        <div class="evacuation-item" onclick="this.classList.toggle('open')">
+            <div class="evacuation-header">
+                <span class="evacuation-title">イーバックチェア（階段避難車）</span>
+                <span class="evacuation-toggle">▼</span>
+            </div>
+            <div class="evacuation-content">
+                <p><strong>概要:</strong> 車椅子の方や歩行が困難な方を、階段を使って安全に避難させるための専用チェアです。キャタピラ式の構造により、介助者1〜2名で階段を降りることができます。</p>
+                <p><strong>設置場所:</strong> 各階の避難経路入口付近</p>
+                <div class="video-placeholder">
+                    <button type="button" class="video-trigger"
+                        data-video="https://www.youtube.com/watch?v=CpQAj0iTAr4"
+                        onclick="event.stopPropagation(); openVideo(this.dataset.video);">
+                        ▶ 動画を見る
+                        <small>YouTube で再生</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="evacuation-item" onclick="this.classList.toggle('open')">
+            <div class="evacuation-header">
+                <span class="evacuation-title">UDエスケープ（三国ヶ丘のみ）</span>
+                <span class="evacuation-toggle">▼</span>
+            </div>
+            <div class="evacuation-content">
+                <p><strong>概要:</strong> ベランダから地上へ素早く避難するための乗り物です。エレベーターのような構造で、階段が使えない緊急時に使用します。</p>
+                <p><strong>設置場所:</strong> 2階のベランダ北端（非常口表示あり）</p>
+                <div class="video-placeholder">
+                    <button type="button" class="video-trigger"
+                        data-video="https://drive.google.com/file/d/1VvHr6pxcN51azFnmt7nNsCHrMQTvHOJY/view"
+                        onclick="event.stopPropagation(); openVideo(this.dataset.video);">
+                        ▶ 動画を見る
+                        <small>UDエスケープの使い方</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="evacuation-item" onclick="this.classList.toggle('open')">
+            <div class="evacuation-header">
+                <span class="evacuation-title">外部避難用滑り台（なかもず分院のみ）</span>
+                <span class="evacuation-toggle">▼</span>
+            </div>
+            <div class="evacuation-content">
+                <p><strong>概要:</strong> 建物外部に設置された金属製の避難用滑り台です。火災などで建物内の避難経路が使えない場合に使用します。</p>
+                <p><strong>設置場所:</strong> 建物南側2階・3階・4階・5階</p>
+                <div class="video-placeholder">
+                    <button type="button" class="video-trigger"
+                        data-video="https://drive.google.com/file/d/1fduaQX4lv3UeDAL-Z-VdD8JlmOQnp3bS/view?usp=sharing"
+                        onclick="event.stopPropagation(); openVideo(this.dataset.video);">
+                        ▶ 動画を見る
+                        <small>外部避難用滑り台の使い方</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning Box -->
+        <div class="warning-box">
+            <strong>⚠ 注意事項</strong>
+            <p>これらの避難手段は、職員の指示に従ってご使用ください。定期的に避難訓練を実施していますので、ぜひご参加ください。</p>
+        </div>
+
+        <!-- Back Button -->
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="disaster-main.html" class="btn btn-secondary">
+                災害情報ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
+        </footer>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="disaster-main.html" class="nav-item active">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#disaster"></use></svg>
+            <span>災害トップ</span>
+        </a>
+        <a href="disaster-faq.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal" aria-hidden="true">
+        <div class="video-modal-content">
+            <button type="button" class="close-modal" aria-label="動画を閉じる">&times;</button>
+            <div class="video-frame">
+                <iframe id="videoFrame" title="UDエスケープ動画" allow="autoplay; encrypted-media; fullscreen"
+                    allowfullscreen loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const videoModal = document.getElementById('videoModal');
+        const videoFrame = document.getElementById('videoFrame');
+        const closeModalButton = document.querySelector('.close-modal');
+
+        function getDrivePreviewUrl(url) {
+            const fileIdMatch = url.match(/\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+            if (!fileIdMatch) {
+                return getYouTubeEmbedUrl(url);
+            }
+
+            return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+        }
+
+        function getYouTubeEmbedUrl(url) {
+            try {
+                const parsedUrl = new URL(url);
+
+                if (parsedUrl.hostname.includes('youtube.com')) {
+                    const videoId = parsedUrl.searchParams.get('v');
+                    if (videoId) {
+                        return `https://www.youtube.com/embed/${videoId}?rel=0`;
+                    }
+                }
+
+                if (parsedUrl.hostname === 'youtu.be') {
+                    const videoId = parsedUrl.pathname.replace('/', '');
+                    if (videoId) {
+                        return `https://www.youtube.com/embed/${videoId}?rel=0`;
+                    }
+                }
+            } catch (error) {
+                // Fall through to the original URL if it is not a valid absolute URL.
+            }
+
+            return url;
+        }
+
+        function openVideo(url) {
+            videoFrame.src = getDrivePreviewUrl(url);
+            videoModal.classList.add('is-open');
+            videoModal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeVideo() {
+            videoModal.classList.remove('is-open');
+            videoModal.setAttribute('aria-hidden', 'true');
+            videoFrame.src = '';
+        }
+
+        closeModalButton.addEventListener('click', closeVideo);
+
+        videoModal.addEventListener('click', function (event) {
+            if (event.target === videoModal) {
+                closeVideo();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && videoModal.classList.contains('is-open')) {
+                closeVideo();
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>

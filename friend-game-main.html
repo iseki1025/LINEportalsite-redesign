@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ミニゲーム | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        /* Game theme: Indigo */
+        .hero-section.theme-game {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(67, 56, 202, 0.08) 100%);
+        }
+
+        .hero-section.theme-game .hero-title {
+            color: #4f46e5;
+        }
+
+        .intro-text {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-xl);
+            line-height: 1.6;
+        }
+
+        .game-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .game-card {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-lg);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        .game-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-title {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .game-desc {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .game-arrow {
+            font-size: 1.2rem;
+            color: var(--border-medium);
+            margin-left: var(--spacing-sm);
+        }
+
+        .tip-card {
+            background: rgba(99, 102, 241, 0.08);
+            /* Indigo light */
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .tip-card h3 {
+            color: #4f46e5;
+            /* Indigo */
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tip-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .game-intro-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(67, 56, 202, 0.05) 100%);
+            border: 2px dashed #6366f1;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+            margin-bottom: var(--spacing-xl);
+            margin-top: 0;
+            position: relative;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .game-intro-card h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4f46e5;
+            margin-bottom: 0.8rem;
+        }
+
+        .game-intro-card p {
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .game-intro-card strong {
+            color: #4338ca;
+            background: linear-gradient(transparent 70%, #c7d2fe 70%);
+        }
+    </style>
+    <link rel="stylesheet" href="public-pages.css?v=20260915-p5">
+</head>
+
+<body class="page-public page-friend-detail">
+    <header class="app-header">
+        <a href="friend-main.html" class="header-logo">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">ミニゲーム</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section theme-game detail-hero">
+            <p class="hero-badge">健康サポート</p>
+            <h1 class="hero-title">ミニゲーム</h1>
+            <p class="hero-subtitle">楽しみながら頭の体操を。</p>
+        </section>
+
+        <!-- Intro -->
+        <div class="tip-card game-intro-card">
+            <div class="game-benefit-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#brain"></use></svg></div>
+            <h3>脳トレのすすめ</h3>
+            <p>
+                ゲームで脳のさまざまな働きを刺激することは、<br>
+                <strong>認知機能の維持</strong>につながると考えられています。<br>
+                楽しみながら脳トレ&リフレッシュ!<br>
+                透析中の気分転換などにオススメです。
+            </p>
+        </div>
+
+        <!-- Game List -->
+        <div class="game-list">
+            <!-- 1. Reaction -->
+            <a href="friend-game-reaction-game.html" class="game-card">
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-reaction"></use></svg></div>
+                <div class="game-info">
+                    <span class="game-title">侍・一刀両断</span>
+                    <span class="game-desc">画面が変わったらタップ！反射神経を鍛えます。</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+
+            <!-- 2. Dodge -->
+            <a href="friend-game-ball-dodge-game.html" class="game-card">
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-dodge"></use></svg></div>
+                <div class="game-info">
+                    <span class="game-title">F1カー障害物回避</span>
+                    <span class="game-desc">障害物を避けて動体視力をアップ！</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+
+            <!-- 3. Puzzle -->
+            <a href="friend-game-falling-block-game.html" class="game-card">
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-block"></use></svg></div>
+                <div class="game-info">
+                    <span class="game-title">PolyDrop Premium</span>
+                    <span class="game-desc">ブロックを積み上げて消す、定番の脳トレ。</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+
+            <!-- 4. Animal Merge -->
+            <a href="friend-game-animal-merge.html" class="game-card">
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-animal"></use></svg></div>
+                <div class="game-info">
+                    <span class="game-title">ぷにぷにアニマル・マージ</span>
+                    <span class="game-desc">同じ動物をくっつけて進化させよう！</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="friend-main.html" class="btn btn-secondary">
+                お友達特典ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright mt-xl">
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
+        </footer>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item active">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
+            <span>特典トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+
+</body>
+
+</html>

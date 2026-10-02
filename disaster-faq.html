@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>災害Q&A | 災害情報ポータル</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        .qa-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+
+        .qa-question {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .qa-question:hover {
+            background: var(--bg-glass-dark);
+        }
+
+        .qa-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-disaster);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .qa-icon.answer {
+            background: var(--color-primary);
+        }
+
+        .qa-text {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .qa-toggle {
+            color: var(--text-muted);
+            transition: transform var(--transition-normal);
+        }
+
+        .qa-item.open .qa-toggle {
+            transform: rotate(180deg);
+        }
+
+        .qa-answer {
+            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md));
+            background: var(--bg-main);
+            border-top: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .qa-item.open .qa-answer {
+            display: block;
+        }
+
+        .search-box {
+            background: var(--accent-disaster-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-box p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .disaster-search-input {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--accent-disaster-light);
+            background: white;
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .disaster-search-input:focus {
+            outline: none;
+            border-color: var(--accent-disaster);
+        }
+
+        .qa-search-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+
+        .qa-search-question {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .qa-search-question:hover {
+            background: var(--bg-glass-dark);
+        }
+
+        .qa-search-item.active .qa-search-answer {
+            display: block;
+        }
+
+        .qa-search-answer {
+            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md));
+            background: var(--bg-main);
+            border-top: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .qa-initial-message,
+        .qa-no-result {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-muted);
+        }
+
+        .keyword-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .keyword-btn.disaster {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+        }
+
+        .keyword-btn.disaster:hover {
+            background: #fee2e2;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-muted);
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="public-pages.css">
+</head>
+
+<body class="page-public page-disaster-detail">
+    <!-- Header -->
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-logo">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">災害Q&A</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero -->
+        <section class="hero-section theme-disaster">
+            <h1 class="hero-title">災害に関する質問</h1>
+            <p class="hero-subtitle">
+                よくある質問から<br>
+                回答を探す
+            </p>
+        </section>
+
+        <!-- Q&A Section Wrapper for qa-script.js -->
+        <div class="qa-search-section" id="qaList" data-category="災害">
+            <!-- Search Box -->
+            <div class="search-box">
+                <p>キーワードを入力して、災害関連の質問を検索できます。</p>
+                <input type="search" class="disaster-search-input qa-search-input" id="disasterSearchInput"
+                    placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
+                <div class="keyword-buttons">
+                    <button class="keyword-btn disaster" onclick="setKeyword('備蓄')">備蓄</button>
+                    <button class="keyword-btn disaster" onclick="setKeyword('避難')">避難</button>
+                    <button class="keyword-btn disaster" onclick="setKeyword('連絡')">連絡</button>
+                    <button class="keyword-btn disaster" onclick="setKeyword('薬')">薬</button>
+                </div>
+            </div>
+
+            <!-- Q&A List -->
+            <div class="qa-results-container">
+                <!-- Q&A items loaded here by qa-script.js -->
+            </div>
+        </div>
+
+        <p class="no-results" id="noResults">該当するQ&Aがありません</p>
+
+        <!-- Back Button -->
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="disaster-main.html" class="btn btn-secondary">
+                災害情報ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
+        </footer>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="disaster-main.html" class="nav-item active">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#disaster"></use></svg>
+            <span>災害トップ</span>
+        </a>
+        <a href="disaster-faq.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-source.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
+    <script>
+        function setKeyword(word) {
+            const input = document.getElementById('disasterSearchInput');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

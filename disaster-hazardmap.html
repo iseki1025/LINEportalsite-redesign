@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ハザードマップ | 災害情報ポータル</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        .map-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .map-section h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .map-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .map-btn {
+            display: block;
+            text-align: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all var(--transition-normal);
+        }
+
+        .map-btn:hover {
+            background: var(--color-primary-bg);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .map-btn.primary {
+            background: var(--accent-disaster);
+            color: var(--text-inverse);
+            border-color: var(--accent-disaster);
+        }
+
+        .map-btn.primary:hover {
+            background: #DC2626;
+        }
+
+        .map-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: var(--spacing-sm);
+        }
+
+        .intro-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-xl);
+        }
+    </style>
+    <link rel="stylesheet" href="public-pages.css">
+</head>
+
+<body class="page-public page-disaster-detail">
+    <!-- Header -->
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-logo">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">ハザードマップ</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero -->
+        <section class="hero-section theme-disaster">
+            <h1 class="hero-title">避難場所の確認</h1>
+            <p class="hero-subtitle">
+                お住まいの地域の<br>
+                危険度を事前に確認
+            </p>
+        </section>
+
+        <!-- Intro -->
+        <div class="intro-text">
+            <p>お住まいの市区町村が公開しているハザードマップで、指定された避難場所や安全な避難経路を事前に確認しておくことが非常に重要です。</p>
+        </div>
+
+        <!-- Local Maps -->
+        <div class="map-section">
+            <h3>各市の防災マップ</h3>
+            <div class="map-buttons">
+                <a href="https://www.city.osaka.lg.jp/kikikanrishitsu/page/0000139402.html" target="_blank"
+                    class="map-btn">
+                    大阪市防災マップ →
+                </a>
+                <a href="https://www.city.sakai.lg.jp/kurashi/bosai/kangaeru/pamphlet/bosai/bousai-map2703.html"
+                    target="_blank" class="map-btn">
+                    堺市防災マップ →
+                </a>
+                <a href="https://www.city.matsubara.lg.jp/docs/page2464.html" target="_blank" class="map-btn">
+                    松原市防災マップ →
+                </a>
+            </div>
+        </div>
+
+        <!-- National Portal -->
+        <div class="map-section">
+            <h3>全国のハザードマップ</h3>
+            <div class="map-buttons">
+                <a href="https://disaportal.gsi.go.jp/" target="_blank" class="map-btn primary">
+                    ハザードマップポータルサイト →
+                </a>
+            </div>
+            <p class="map-note">※国土交通省のサイトが新しいウィンドウで開きます</p>
+        </div>
+
+        <!-- Back Button -->
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="disaster-main.html" class="btn btn-secondary">
+                災害情報ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
+        </footer>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="disaster-main.html" class="nav-item active">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#disaster"></use></svg>
+            <span>災害トップ</span>
+        </a>
+        <a href="disaster-faq.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+
+</body>
+
+</html>

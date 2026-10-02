@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>食事療法 | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        /* Nutrition theme: Orange */
+        .hero-section.theme-nutrition {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.08) 100%);
+        }
+
+        .hero-section.theme-nutrition .hero-title {
+            color: #b45309;
+        }
+
+        .hero-subtitle .hero-emphasis {
+            display: inline-block;
+            font-size: 1.15em;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-lg);
+            background: var(--bg-card);
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-xs);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #b45309;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .info-card ul {
+            padding-left: var(--spacing-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .info-card ul strong {
+            color: #b45309;
+        }
+
+        .tip-card {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            text-align: center;
+            color: #b45309;
+            font-size: 0.9rem;
+        }
+
+        /* Recipe Card */
+        .recipe-list {
+            display: block;
+        }
+
+        .recipe-season-tabs {
+            position: sticky;
+            top: 60px;
+            z-index: 20;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.35rem;
+            margin-bottom: var(--spacing-md);
+            padding: 0.35rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            background: #fff7ed;
+            box-shadow: 0 5px 14px rgba(15, 23, 42, 0.1);
+        }
+
+        .recipe-season-tab {
+            border: 0;
+            border-radius: calc(var(--radius-lg) - 4px);
+            padding: 0.65rem 0.35rem;
+            background: #fff7ed;
+            color: #92400e;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .recipe-season-tab:hover,
+        .recipe-season-tab:focus-visible {
+            color: #78350f;
+            background: #ffedd5;
+        }
+
+        .recipe-season-tab:focus-visible {
+            outline: 3px solid rgba(245, 158, 11, 0.35);
+            outline-offset: 1px;
+        }
+
+        .recipe-season-tab.active {
+            color: #ffffff;
+            background: #d97706;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+        }
+
+        .recipe-season-count {
+            display: block;
+            margin-top: 0.15rem;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .recipe-season-tab.active .recipe-season-count {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .recipe-season-panel {
+            display: none;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .recipe-season-panel.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        @media (max-width: 420px) {
+            .recipe-season-tab {
+                font-size: 0.76rem;
+            }
+        }
+
+        .recipe-link-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-sm);
+            color: var(--text-primary);
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .recipe-link-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+            border-color: rgba(245, 158, 11, 0.35);
+        }
+
+        .recipe-link-item:focus-visible {
+            outline: 3px solid rgba(245, 158, 11, 0.35);
+            outline-offset: 2px;
+        }
+
+        .recipe-title-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .recipe-title-icon {
+            flex: 0 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .recipe-title {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .recipe-new-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 1.3rem;
+            padding: 0 0.45rem;
+            border-radius: var(--radius-full);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: #ffffff;
+            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+        }
+
+        .recipe-thumb {
+            position: relative;
+            aspect-ratio: 3 / 4;
+            border-radius: calc(var(--radius-lg) - 4px);
+            overflow: hidden;
+            background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+            border: 1px solid rgba(245, 158, 11, 0.12);
+        }
+
+        .recipe-thumb img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #ffffff;
+        }
+
+        .recipe-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            padding: 0.15rem 0.2rem 0.1rem;
+        }
+
+        .recipe-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-xs);
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .recipe-card-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-full);
+            background: rgba(245, 158, 11, 0.1);
+            color: #b45309;
+            font-weight: 600;
+        }
+
+        .recipe-link-arrow {
+            color: #f59e0b;
+            font-size: 0.9rem;
+            line-height: 1;
+            margin-left: auto;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.08) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .quiz-btn {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        /* PDF Thumbnail Style */
+        .pdf-thumbnail-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pdf-thumbnail-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .pdf-thumbnail-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .pdf-tap-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Q&A */
+        .qa-section-intro {
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .keyword-btn.orange {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #fcd34d;
+            color: #b45309;
+        }
+
+    </style>
+    <link rel="stylesheet" href="public-pages.css?v=20260915-recipe-static">
+</head>
+
+<body class="page-public page-friend-detail">
+    <header class="app-header">
+        <a href="friend-main.html" class="header-logo">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">食事療法</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero -->
+        <section class="hero-section theme-nutrition">
+            <h1 class="hero-title">透析食事療法の基本</h1>
+            <p class="hero-subtitle"><span class="hero-emphasis">~しっかり食べて、元気で長生き~</span><br>適切な食事管理は、合併症を予防します</p>
+        </section>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('info')">基本</button>
+            <button class="tab-btn" onclick="switchTab('recipe')">レシピ</button>
+            <button class="tab-btn" onclick="switchTab('paper')">透析食通信</button>
+            <button class="tab-btn" onclick="switchTab('qa')">Q&A</button>
+        </nav>
+
+        <!-- Tab 1: Info -->
+        <section id="info" class="tab-content active">
+            <div class="info-card">
+                <p style="color: #374151; text-align: center; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem;">基本項目</p>
+                <ul style="color: #ef4444; font-weight: bold; list-style-type: none; padding-left: 0; text-align: left; line-height: 2; display: table; margin: 0 auto;">
+                    <li>・エネルギーの適量摂取</li>
+                    <li>・たんぱく質の適量摂取</li>
+                    <li>・リン制限</li>
+                    <li>・カリウム制限</li>
+                    <li>・水分制限</li>
+                    <li>・食塩制限</li>
+                </ul>
+            </div>
+
+            <div class="pdf-collapsible" style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); overflow: hidden;">
+                <div class="pdf-collapsible-header" style="display: flex; align-items: center; justify-content: center; padding: var(--spacing-md) var(--spacing-lg); background: rgba(245, 158, 11, 0.08); font-weight: 600; color: var(--text-primary);">
+                    <span>📖 食事療法ガイドブックを見る</span>
+                </div>
+                <div class="pdf-collapsible-content" style="display: block; padding: var(--spacing-md) var(--spacing-lg); text-align: center;">
+                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        詳しい食事療法の情報をPDFで確認できます。写真をタップしてください。
+                    </p>
+                    <div class="pdf-thumbnail-container"
+                        onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/dietary-therapy-for-dialysis-patients.pdf', '_blank')">
+                        <img src="files/pdf/preview-dietary-therapy-for-dialysis-patients.webp" alt="透析患者さんの食事療法プレビュー">
+                        <div class="pdf-tap-hint">タップして開く</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: Recipe -->
+        <section id="recipe" class="tab-content">
+            <h3 class="section-title">おすすめレシピ</h3>
+            <div class="recipe-list" id="recipeContainer">
+                <p style="text-align: center; color: var(--text-muted); padding: var(--spacing-xl);">読み込み中...</p>
+            </div>
+        </section>
+
+        <!-- Tab 3: Paper -->
+        <section id="paper" class="tab-content">
+            <div class="quiz-card">
+                <h2 style="color: #b45309; margin-bottom: var(--spacing-md);">透析食通信</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-xl);">透析食に関する情報は、以下のページからご確認いただけます。</p>
+                <a href="https://kajimoto-clinic.com/pages/touseki04_pdf/touseki_paper.html" class="quiz-btn" target="_blank" rel="noopener noreferrer">透析食通信を見る</a>
+            </div>
+        </section>
+
+        <!-- Tab 4: Q&A (Compatible with qa-script.js) -->
+        <section id="qa" class="tab-content qa-search-section" data-category="栄養">
+            <div class="qa-section-intro">
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-md);">キーワードを入力して、栄養関連の質問を検索できます。
+                </p>
+                <input type="search" class="search-input qa-search-input" placeholder="キーワード (例: リン, 外食)"
+                    autocomplete="off">
+                <div class="keyword-buttons mt-md">
+                    <button class="keyword-btn orange" onclick="setKeyword('リン')">リン</button>
+                    <button class="keyword-btn orange" onclick="setKeyword('カリウム')">カリウム</button>
+                    <button class="keyword-btn orange" onclick="setKeyword('塩分')">塩分</button>
+                </div>
+            </div>
+            <div class="qa-results-container">
+                <!-- Q&A items loaded here by qa-script.js -->
+            </div>
+        </section>
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="friend-main.html" class="btn btn-secondary">
+                お友達特典ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright mt-xl">
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
+        </footer>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item active">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
+            <span>特典トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/papaparse.min.js"></script>
+    <script src="js/qa/qa-source.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
+    <script>
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function setKeyword(word) {
+            const input = document.querySelector('.qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+
+        function toggleRecipe(header) {
+            header.parentElement.classList.toggle('open');
+        }
+    </script>
+    <!-- Recipe Links -->
+    <script type="module">
+        function parseYmd(value) {
+            if (!value) return null;
+            const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+            if (!m) return null;
+            return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+        }
+
+        function toDate(value) {
+            if (!value) return null;
+            if (value instanceof Date) return value;
+            if (typeof value.toDate === 'function') return value.toDate();
+            const parsed = new Date(value);
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function isNewWithinOneWeek(updatedAt) {
+            const updatedDate = toDate(updatedAt) || parseYmd(updatedAt);
+            if (!updatedDate) return false;
+            const now = new Date();
+            const elapsed = now.getTime() - updatedDate.getTime();
+            const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+            return elapsed >= 0 && elapsed < oneWeekMs;
+        }
+
+        const recipeSeasons = [
+            { key: 'spring', label: '春のレシピ' },
+            { key: 'summer', label: '夏のレシピ' },
+            { key: 'autumn', label: '秋のレシピ' },
+            { key: 'winter', label: '冬のレシピ' }
+        ];
+
+        const recipeSeasonByFile = {
+            'spring-new-onion-chicken-oyakodon.pdf': 'spring',
+            'spring-asparagus-chicken-plum-spring-rolls.pdf': 'spring',
+            'spring-spanish-mackerel-butter-soy-sauce-recipe.pdf': 'spring',
+            'spring-young-burdock-atsuage-stir-fry-recipe.pdf': 'spring',
+            'spring-clam-mixed-rice-recipe.pdf': 'spring',
+            'loquat-jelly.pdf': 'spring',
+            'sweet-potato-mochi.pdf': 'autumn',
+            'stir-fried-turnip-salmon-miso.pdf': 'autumn',
+            'pickled-saury-plum-vinegar.pdf': 'autumn',
+            'grilled-eggplant-mackerel.pdf': 'autumn',
+            'spinach-mapo-tofu.pdf': 'winter',
+            'autumn-maitake-chijimi-recipe.pdf': 'autumn',
+            'autumn-squid-broccoli-garlic-stir-fry-recipe.pdf': 'autumn',
+            'winter-mizuna-tofu-doria.pdf': 'winter',
+            'winter-pork-belly-lemon-saute-recipe.pdf': 'winter',
+            'winter-simmered-splendid-alfonsino.pdf': 'winter',
+            'winter-stuffed-aburaage-meat-recipe.pdf': 'winter',
+            'winter-turnip-scallop-soymilk-chazuke-recipe.pdf': 'winter'
+        };
+
+        const recipeSeasonByTitle = {
+            '新たまねぎとサラダチキンの親子丼': 'spring',
+            'アスパラとささみの梅春巻き': 'spring',
+            'さわらのバター醤油焼き': 'spring',
+            '新ごぼうと厚揚げの炒め物': 'spring',
+            'あさりの炊き込みご飯': 'spring',
+            'びわゼリー': 'spring',
+            'さつまいも餅': 'autumn',
+            'かぶと鮭のみそ炒め': 'autumn',
+            'サンマの梅酢漬け': 'autumn',
+            '秋なすと秋さばの焼き浸し': 'autumn',
+            '水菜の豆腐ドリア': 'winter',
+            '金目鯛の煮付け': 'winter',
+            'ほうれん草の麻婆豆腐': 'winter',
+            'かぶとホタテの豆乳茶漬け': 'winter',
+            '油揚げの肉詰め': 'winter',
+            '豚バラ肉のレモンソテー': 'winter',
+            'まいたけチヂミ': 'autumn',
+            'いかとブロッコリーのガーリック炒め': 'autumn'
+        };
+
+        function getRecipeSeason(recipe) {
+            if (recipe.season && recipeSeasons.some((season) => season.key === recipe.season)) {
+                return recipe.season;
+            }
+            const fileName = (recipe.filename || recipe.url || '').split('/').pop().split('?')[0];
+            return recipeSeasonByFile[fileName] || recipeSeasonByTitle[recipe.title] || 'winter';
+        }
+
+        function renderRecipes(container, recipes) {
+            if (!recipes.length) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: var(--spacing-xl);">現在公開中のレシピはありません。</p>';
+                return;
+            }
+
+            const groupedRecipes = recipeSeasons.reduce((groups, season) => {
+                groups[season.key] = recipes.filter((recipe) => getRecipeSeason(recipe) === season.key);
+                return groups;
+            }, {});
+
+            const activeSeason = recipeSeasons.find((season) => groupedRecipes[season.key].length > 0)?.key || recipeSeasons[0].key;
+            container.innerHTML = `
+                <div class="recipe-season-tabs" role="tablist" aria-label="季節別レシピ">
+                    ${recipeSeasons.map((season) => `
+                        <button type="button" class="recipe-season-tab${season.key === activeSeason ? ' active' : ''}"
+                            role="tab" aria-selected="${season.key === activeSeason}" aria-controls="recipe-panel-${season.key}"
+                            data-season="${season.key}">
+                            <svg class="recipe-season-icon" aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#season-${season.key}"></use></svg>
+                            ${season.label.replace('のレシピ', '')}
+                            <span class="recipe-season-count">${groupedRecipes[season.key].length}件</span>
+                        </button>
+                    `).join('')}
+                </div>
+                ${recipeSeasons.map((season) => {
+                const seasonRecipes = groupedRecipes[season.key];
+                const recipeCards = seasonRecipes.map((recipe) => {
+                const previewUrl = getRecipePreviewUrl(recipe);
+                const newBadge = isNewWithinOneWeek(recipe.updatedAt) ? '<span class="recipe-new-badge">NEW</span>' : '';
+                return `
+                <a href="${recipe.url}" target="_blank" rel="noopener noreferrer" class="recipe-link-item">
+                    <div class="recipe-body">
+                        <div class="recipe-title-wrap">
+                            <span class="recipe-title-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#nutrition"></use></svg></span>
+                            <span class="recipe-title">${recipe.title}</span>
+                            ${newBadge}
+                        </div>
+                    </div>
+                    <div class="recipe-thumb">
+                        <img src="${previewUrl}" alt="${recipe.title}のプレビュー" loading="lazy" decoding="async">
+                    </div>
+                </a>
+            `;}).join('');
+
+                return `
+                    <div id="recipe-panel-${season.key}" class="recipe-season-panel${season.key === activeSeason ? ' active' : ''}"
+                        role="tabpanel" aria-label="${season.label}"${season.key !== activeSeason ? ' hidden' : ''}>
+                            ${recipeCards || '<p style="text-align: center; color: var(--text-muted); padding: var(--spacing-md);">現在公開中のレシピはありません。</p>'}
+                    </div>
+                `;
+                }).join('')}`;
+
+            container.querySelectorAll('.recipe-season-tab').forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    const selectedSeason = tab.dataset.season;
+                    container.querySelectorAll('.recipe-season-tab').forEach((item) => {
+                        const isSelected = item === tab;
+                        item.classList.toggle('active', isSelected);
+                        item.setAttribute('aria-selected', String(isSelected));
+                    });
+                    container.querySelectorAll('.recipe-season-panel').forEach((panel) => {
+                        const isSelected = panel.id === `recipe-panel-${selectedSeason}`;
+                        panel.classList.toggle('active', isSelected);
+                        panel.hidden = !isSelected;
+                    });
+                });
+            });
+        }
+
+        function getRecipePreviewUrl(recipeOrUrl) {
+            const previewUrl = typeof recipeOrUrl === 'object' && recipeOrUrl
+                ? recipeOrUrl.previewUrl || recipeOrUrl.thumbnailUrl || null
+                : null;
+            if (previewUrl) {
+                return previewUrl;
+            }
+
+            const pdfUrl = typeof recipeOrUrl === 'string' ? recipeOrUrl : recipeOrUrl?.url;
+            if (!pdfUrl) {
+                return 'files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.webp';
+            }
+            try {
+                const pathname = new URL(pdfUrl, window.location.href).pathname;
+                const fileName = pathname.split('/').pop() || '';
+                const previewName = fileName.replace(/\.pdf$/i, '');
+                const season = typeof recipeOrUrl === 'object' && recipeOrUrl
+                    ? getRecipeSeason(recipeOrUrl)
+                    : recipeSeasonByFile[fileName] || null;
+                return season
+                    ? `files/pdf/nutrition/recipes/${season}/preview-${previewName}.webp`
+                    : 'files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.webp';
+            } catch (error) {
+                return 'files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.webp';
+            }
+        }
+
+        function loadRecipes() {
+            const container = document.getElementById('recipeContainer');
+            if (!container) return;
+
+            const publishedRecipes = [
+                {
+                    title: '水菜の豆腐ドリア',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-mizuna-tofu-doria.pdf',
+                    icon: '🥘'
+                },
+                {
+                    title: '新たまねぎとサラダチキンの親子丼',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-new-onion-chicken-oyakodon.pdf',
+                    updatedAt: '2026-04-24',
+                    icon: '🍚'
+                },
+                {
+                    title: '金目鯛の煮付け',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-simmered-splendid-alfonsino.pdf',
+                    icon: '🐟'
+                },
+                {
+                    title: 'アスパラとささみの梅春巻き',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-asparagus-chicken-plum-spring-rolls.pdf',
+                    icon: '🥢'
+                },
+                {
+                    title: 'さつまいも餅',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/sweet-potato-mochi.pdf',
+                    icon: '🍠'
+                },
+                {
+                    title: 'びわゼリー',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/loquat-jelly.pdf',
+                    icon: '🍮'
+                },
+                {
+                    title: 'かぶと鮭のみそ炒め',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/stir-fried-turnip-salmon-miso.pdf',
+                    icon: '🍳'
+                },
+                {
+                    title: 'ほうれん草の麻婆豆腐',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/spinach-mapo-tofu.pdf',
+                    icon: '🍲'
+                },
+                {
+                    title: 'サンマの梅酢漬け',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/pickled-saury-plum-vinegar.pdf',
+                    icon: '🐟'
+                },
+                {
+                    title: '秋なすと秋さばの焼き浸し',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/grilled-eggplant-mackerel.pdf',
+                    icon: '🍆'
+                },
+                {
+                    title: 'さわらのバター醤油焼き',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-spanish-mackerel-butter-soy-sauce-recipe.pdf',
+                    icon: '🐟'
+                },
+                {
+                    title: '新ごぼうと厚揚げの炒め物',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-young-burdock-atsuage-stir-fry-recipe.pdf',
+                    icon: '🥢'
+                },
+                {
+                    title: 'あさりの炊き込みご飯',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-clam-mixed-rice-recipe.pdf',
+                    icon: '🍚'
+                },
+                {
+                    title: 'かぶとホタテの豆乳茶漬け',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-turnip-scallop-soymilk-chazuke-recipe.pdf',
+                    icon: '🥣'
+                },
+                {
+                    title: '油揚げの肉詰め',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-stuffed-aburaage-meat-recipe.pdf',
+                    icon: '🍽️'
+                },
+                {
+                    title: 'いかとブロッコリーのガーリック炒め',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/autumn-squid-broccoli-garlic-stir-fry-recipe.pdf',
+                    icon: '🦑'
+                },
+                {
+                    title: '豚バラ肉のレモンソテー',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-pork-belly-lemon-saute-recipe.pdf',
+                    icon: '🥓'
+                },
+                {
+                    title: 'まいたけチヂミ',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/autumn-maitake-chijimi-recipe.pdf',
+                    icon: '🍄'
+                }
+            ];
+
+            renderRecipes(container, publishedRecipes);
+        }
+
+        loadRecipes();
+    </script>
+
+
+</body>
+
+</html>

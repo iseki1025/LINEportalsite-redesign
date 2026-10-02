@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>シャント管理クイズ | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        /* Quiz Styles */
+        .quiz-info {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .quiz-progress {
+            height: 8px;
+            background: var(--border-light);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--spacing-xl);
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            border-radius: var(--radius-full);
+            transition: width 0.3s ease;
+        }
+
+        .quiz-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .quiz-number {
+            font-size: 0.85rem;
+            color: #ec4899;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .quiz-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .quiz-option {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-main);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .quiz-option:hover:not(.disabled) {
+            border-color: #f9a8d4;
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        .quiz-option.correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            color: #047857;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #b91c1c;
+        }
+
+        .quiz-option.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .quiz-explanation {
+            display: none;
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: rgba(236, 72, 153, 0.08);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .quiz-explanation.show {
+            display: block;
+        }
+
+        .quiz-explanation-title {
+            font-weight: 600;
+            color: #be185d;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .quiz-next-btn {
+            display: none;
+            width: 100%;
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .quiz-next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Result */
+        .quiz-result {
+            display: none;
+            text-align: center;
+            padding: var(--spacing-2xl);
+        }
+
+        .quiz-result.show {
+            display: block;
+        }
+
+        .result-emoji {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .result-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ec4899;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .result-percent {
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .restart-btn {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="public-pages.css">
+</head>
+
+<body class="page-public page-friend-detail">
+    <!-- Header -->
+    <header class="app-header">
+        <a href="friend-main.html" class="header-logo">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">シャント管理クイズ</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section theme-shunt detail-hero">
+            <p class="hero-badge">健康サポート</p>
+            <h1 class="hero-title">シャント管理クイズ</h1>
+            <p class="hero-subtitle">10問からランダムに5問出題されます。</p>
+        </section>
+
+        <p class="quiz-info">10問からランダムに5問出題されます</p>
+
+        <div class="quiz-progress">
+            <div class="quiz-progress-fill" id="progressFill" style="width: 20%;"></div>
+        </div>
+
+        <div class="quiz-card" id="quizContainer">
+            <!-- Questions inserted here -->
+        </div>
+
+        <button class="quiz-next-btn" id="nextButton">次の問題へ</button>
+
+        <div class="quiz-card quiz-result" id="resultContainer">
+            <!-- Results shown here -->
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="friend-main.html" class="btn btn-secondary">
+                お友達特典ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright mt-xl">
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
+        </footer>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item active">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
+            <span>特典トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <script>
+        const quizData = [
+            { question: "シャントに最も適した観察方法はどれ？", options: ["指で触って鼓動(スリル)を確認する", "目で見るだけ", "毎日押さえて止める"], correct: 0, explanation: "毎日スリル(振動)を触れて確認することが重要です。ザーザーという音が正常です。" },
+            { question: "シャント側の腕で「やってはいけないこと」はどれ？", options: ["血圧測定", "買い物袋を軽く持つ", "手を洗う"], correct: 0, explanation: "血圧測定、採血、腕時計などは血管を圧迫し、閉塞の原因になるため避けます。" },
+            { question: "シャントの閉塞が疑われる症状は？", options: ["スリルが触れない", "少しかゆい", "冷たくない"], correct: 0, explanation: "スリル(振動)や音が消失した場合、閉塞の可能性が高いです。直ちに連絡してください。" },
+            { question: "シャント感染を疑うサインは？", options: ["発赤・熱感・痛み", "皮膚が乾燥している", "少しむくんでいるだけ"], correct: 0, explanation: "赤み、腫れ、痛み、熱感は感染の兆候です。放置せず受診しましょう。" },
+            { question: "透析後の止血方法として正しいのは？", options: ["適度な圧で押さえる", "強く押す", "テープだけ貼る"], correct: 0, explanation: "強すぎる圧迫は血管を潰してしまいます。出血が止まる程度の「適度な圧」で押さえます。" },
+            { question: "寒い季節の血流管理は？", options: ["冷やさない", "水で冷やす", "血流を止める"], correct: 0, explanation: "血管は冷えると収縮します。冬場はサポーターやカイロ(直接当てない)で保温しましょう。" },
+            { question: "透析中にシャント肢がしびれたら？", options: ["スタッフに報告する", "自分でマッサージする", "そのまま様子を見る"], correct: 0, explanation: "しびれは血流障害のサインです。すぐにスタッフに知らせましょう。" },
+            { question: "シャントの音を聞くのに適した道具は？", options: ["聴診器", "体温計", "血圧計"], correct: 0, explanation: "聴診器でザーザーという連続音(スリル音)を確認します。" },
+            { question: "シャント部の清潔を保つために大切なのは？", options: ["毎日石鹸で優しく洗う", "消毒液を毎日塗る", "テープでずっと覆う"], correct: 0, explanation: "清潔を保つには、毎日石鹸で優しく洗い、清潔なタオルで拭くことが基本です。" },
+            { question: "シャント側の腕に腕時計をしても良い？", options: ["いいえ、避けるべき", "はい、問題ない", "たまになら良い"], correct: 0, explanation: "腕時計や締め付けるアクセサリーは血流を妨げるため避けましょう。" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let selectedQuestions = [];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function selectRandomQuestions() {
+            selectedQuestions = shuffleArray(quizData).slice(0, 5);
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const quizContainer = document.getElementById('quizContainer');
+            const data = selectedQuestions[currentQuestion];
+            const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            const shuffledOptions = shuffleArray(data.options.map((option, index) => ({
+                text: option, isCorrect: index === data.correct
+            })));
+
+            quizContainer.innerHTML = `
+                <div class="quiz-number">問題 ${currentQuestion + 1} / ${selectedQuestions.length}</div>
+                <div class="quiz-question">${data.question}</div>
+                <div class="quiz-options">
+                    ${shuffledOptions.map((option, index) => `
+                        <div class="quiz-option" onclick="selectOption(${index}, ${option.isCorrect}, this)">${option.text}</div>
+                    `).join('')}
+                </div>
+                <div class="quiz-explanation" id="explanation">
+                    <div class="quiz-explanation-title">📝 解説</div>
+                    <div>${data.explanation}</div>
+                </div>
+            `;
+            document.getElementById('nextButton').style.display = 'none';
+        }
+
+        function selectOption(selectedIndex, isCorrect, element) {
+            if (answered) return;
+            answered = true;
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.add('disabled'));
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    if (opt.getAttribute('onclick').includes('true')) opt.classList.add('correct');
+                });
+            }
+
+            document.getElementById('explanation').classList.add('show');
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = 'block';
+            nextButton.textContent = currentQuestion < selectedQuestions.length - 1 ? '次の問題へ' : '結果を見る';
+            nextButton.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < selectedQuestions.length) loadQuestion();
+            else showResults();
+        }
+
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('nextButton').style.display = 'none';
+            const resultContainer = document.getElementById('resultContainer');
+            const percentage = (score / selectedQuestions.length) * 100;
+            let emoji = percentage === 100 ? '🏆' : (percentage < 60 ? '📚' : '🎉');
+            let message = percentage === 100 ? 'パーフェクト!' : 'お疲れ様でした!';
+
+            resultContainer.innerHTML = `
+                <div class="result-emoji">${emoji}</div>
+                <div class="result-title">${message}</div>
+                <div class="result-score">${score} / ${selectedQuestions.length}</div>
+                <div class="result-percent">正答率: ${percentage.toFixed(0)}%</div>
+                <button class="restart-btn" onclick="restartQuiz()">もう一度挑戦する</button>
+            `;
+            resultContainer.classList.add('show');
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0; score = 0; answered = false;
+            selectRandomQuestions();
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('resultContainer').classList.remove('show');
+            loadQuestion();
+        }
+
+        selectRandomQuestions();
+        loadQuestion();
+    </script>
+
+
+</body>
+
+</html>

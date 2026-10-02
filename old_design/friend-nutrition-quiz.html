@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>栄養クイズ | 梶本クリニック</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
+    <style>
+        /* Theme-specific override for nutrition quiz */
+        .quiz-progress-fill {
+            background: linear-gradient(90deg, #34a853, #fbbc04);
+        }
+
+        .quiz-next-btn {
+            background: linear-gradient(135deg, #34a853, #1e8e3e);
+            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
+        }
+
+        .result-score {
+            color: #34a853;
+        }
+    </style>
+</head>
+
+<body class="theme-friend app-mode">
+    <header class="app-header">
+        <a href="friend-nutrition-main.html" class="back-button">&lt;</a>
+        <div class="app-title">栄養クイズ</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <div class="app-card-generic" style="text-align:center; margin-bottom:1.5rem;">
+            <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">30問からランダムに5問出題されます</p>
+        </div>
+
+        <div class="quiz-progress-container">
+            <div class="quiz-progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="quizContainer" class="app-card-generic">
+            <!-- Questions inserted here -->
+        </div>
+
+        <div id="resultContainer" class="quiz-result-container app-card-generic">
+            <!-- Results shown here -->
+        </div>
+
+        <button id="nextButton" class="quiz-next-btn" style="display: none;">次の問題へ</button>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon">❓</div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <script>
+        const quizData = [
+            { question: "透析患者さんが特に注意すべき栄養素はどれですか?", options: ["ビタミンC", "カリウム", "食物繊維"], correct: 1, explanation: "透析患者さんはカリウムの排泄が困難なため、摂取制限が必要です。バナナやイモ類などは控えめにしましょう。" },
+            { question: "透析患者さんの1日の塩分摂取目安はどのくらいですか?", options: ["10g以下", "6g以下", "制限なし"], correct: 1, explanation: "1日6g以下の塩分摂取が推奨されています。塩分過多は水分貯留や高血圧の原因になります。" },
+            { question: "透析患者さんが避けるべき果物はどれですか?", options: ["りんご", "バナナ", "いちご"], correct: 1, explanation: "バナナは非常にカリウムが多いため避けた方が良いです。りんごやいちごは比較的少なめです。" },
+            { question: "カリウムを減らす調理方法として正しいのは?", options: ["電子レンジ", "茹でこぼし", "蒸し調理"], correct: 1, explanation: "野菜を小さく切って「茹でこぼす」ことで、カリウムを約30〜40%減らすことができます。" },
+            { question: "リンが多く含まれる食品はどれですか?", options: ["こんにゃく", "乳製品", "きゅうり"], correct: 1, explanation: "牛乳やチーズなどの乳製品はリンを多く含みます。摂りすぎは骨や血管に悪影響を与えます。" },
+            { question: "外食時に選ぶべきメニューはどれですか?", options: ["ラーメン", "握り寿司", "焼肉定食"], correct: 1, explanation: "寿司はネタや醤油の量を調整しやすいため比較的良い選択肢です。ラーメンは汁の塩分が非常に高いので避けましょう。" },
+            { question: "透析患者さんの水分摂取目安は？", options: ["尿量+500ml", "2リットル", "制限なし"], correct: 0, explanation: "尿量＋500ml程度が基本です。水分過多は心不全の原因になります。" },
+            { question: "タンパク質を適切に摂る理由は？", options: ["筋肉量を維持するため", "カリウムを増やすため", "水分を増やすため"], correct: 0, explanation: "透析患者さんは筋肉量の維持が重要です。良質なタンパク質を適量摂りましょう。" },
+            { question: "リン吸着剤を飲むタイミングは？", options: ["食直前〜食中", "寝る前", "朝一番"], correct: 0, explanation: "リン吸着剤は食事中のリンと結合するため、食直前〜食中に服用するのが効果的です。" },
+            { question: "乾麺と生麺、塩分が少ないのは？", options: ["生麺", "乾麺", "同じ"], correct: 0, explanation: "乾麺は製造過程で塩が多く使われます。生麺の方が塩分が少ない傾向があります。" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let selectedQuestions = [];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function selectRandomQuestions() {
+            const shuffled = shuffleArray(quizData);
+            selectedQuestions = shuffled.slice(0, 5);
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const quizContainer = document.getElementById('quizContainer');
+            const data = selectedQuestions[currentQuestion];
+
+            const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            const shuffledOptions = shuffleArray(data.options.map((option, index) => ({
+                text: option,
+                isCorrect: index === data.correct
+            })));
+
+            quizContainer.innerHTML = `
+                <div class="quiz-question-number">問題 ${currentQuestion + 1} / ${selectedQuestions.length}</div>
+                <div class="quiz-question-text">${data.question}</div>
+                <div class="quiz-options">
+                    ${shuffledOptions.map((option, index) => `
+                        <div class="quiz-option" onclick="selectOption(${index}, ${option.isCorrect}, this)">
+                            ${option.text}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="quiz-explanation" id="explanation">
+                    <div class="explanation-title">📝 解説</div>
+                    <div>${data.explanation}</div>
+                </div>
+            `;
+            document.getElementById('nextButton').style.display = 'none';
+        }
+
+        function selectOption(selectedIndex, isCorrect, element) {
+            if (answered) return;
+            answered = true;
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.add('disabled'));
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    if (opt.getAttribute('onclick').includes('true')) opt.classList.add('correct');
+                });
+            }
+
+            document.getElementById('explanation').classList.add('show');
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = 'block';
+            nextButton.textContent = currentQuestion < selectedQuestions.length - 1 ? '次の問題へ' : '結果を見る';
+            nextButton.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < selectedQuestions.length) loadQuestion();
+            else showResults();
+        }
+
+        function showResults() {
+            const quizContainer = document.getElementById('quizContainer');
+            const resultContainer = document.getElementById('resultContainer');
+            const percentage = (score / selectedQuestions.length) * 100;
+            let emoji = percentage === 100 ? '🏆' : (percentage < 60 ? '📚' : '🎉');
+            let message = percentage === 100 ? 'パーフェクト!' : 'お疲れ様でした!';
+
+            quizContainer.style.display = 'none';
+            resultContainer.innerHTML = `
+                <div class="result-emoji">${emoji}</div>
+                <h2>${message}</h2>
+                <div class="result-score">${score} / ${selectedQuestions.length}</div>
+                <p>正答率: ${percentage.toFixed(0)}%</p>
+                <button class="quiz-next-btn" onclick="restartQuiz()">もう一度挑戦する</button>
+            `;
+            resultContainer.classList.add('show');
+            document.getElementById('nextButton').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0; score = 0; answered = false;
+            selectRandomQuestions();
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('resultContainer').classList.remove('show');
+            loadQuestion();
+        }
+
+        selectRandomQuestions();
+        loadQuestion();
+    </script>
+</body>
+
+</html>
